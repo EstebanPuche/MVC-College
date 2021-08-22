@@ -33,15 +33,30 @@ namespace MVC_College.Controllers
         }
 
         // GET: Students/Details/5
+        /**
+         * Vamos a introducir la propiedad "Enrollments" que contiene una colección en una tabla HTML,
+         * la depositamos aquí en la página de detalles
+         */
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            // Código original con "FirstOrDefaultAsync" solo recupera una entidad "Student"...
+            //var student = await _context.Students
+            //    .FirstOrDefaultAsync(m => m.Id == id);
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.Id == id);
+            // Código para incluir mas detalles...
+            /**
+             * Los métodos "Include" y "ThenInclude" hacen que el contexto cargue la propiedad de 
+             * navegación "Student.Enrollments"y, dentro de cada incripción, la propiedad de navegación
+             * "Enrollment.Course".
+             * El método "AsNoTracking" mejora el rendimineto en casos en los que no se actualizarán las 
+             * entidades devueltas en la duración del contexto actual.
+             */
+            var student = await _context.Students.Include(s => s.Enrollments).ThenInclude(e => e.Course)
+                .AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
                 return NotFound();
@@ -59,15 +74,32 @@ namespace MVC_College.Controllers
         // POST: Students/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /**
+         * Hemos quitado el "Id" del atributo Bind, por que "Id" es el valor de clave principal que SQL
+         * Server establecerá automáticamente cuando se inserte la fila.
+         * Se ha insertado el bloque "Try..Catch"  que si detecta alguna excepción derivada de "DbUpdateException"
+         * mientras se guardan los cambios, se muestra un mensaje de error genérico.
+         * Es un acto ideal para producciones en serie y de calidad.
+         */
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LastName,FisrtMidName,EnrollmentDate")] Student student)
+        //public async Task<IActionResult> Create([Bind("Id,LastName,FisrtMidName,EnrollmentDate")] Student student)
+        public async Task<IActionResult> Create([Bind("LastName,FisrtMidName,EnrollmentDate")] Student student)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(student);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                // Log the error (uncomment es variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes." + "Try again, and if the problem persist " +
+                     "see your system administrator.");
             }
             return View(student);
         }
@@ -124,32 +156,91 @@ namespace MVC_College.Controllers
         }
 
         // GET: Students/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        /**
+         * Reemplazamos el código original por el siguiente que administra los informes de errores.
+         */
+        //? Código original..
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var student = await _context.Students
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (student == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(student);
+        //}
+        /**
+         * Este código acepta un parámetro opcional que indica si se llamó al método despues de un 
+         * error al guardar los cambios.
+         */
+        public async Task<IActionResult> Delete(int? id, bool? saveCAhngesError = false)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var student = await _context.Students.AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
                 return NotFound();
             }
 
+            if (saveCAhngesError.GetValueOrDefault())
+            {
+                ViewData ["ErrorMessage"] = "Delet failed. Try again, and if the problem persist " + "see your system administrator.";
+            }
             return View(student);
         }
 
         // POST: Students/Delete/5
+        /**
+         * Vamos agregar un bloque "Try...Catch" al método HttpPost "Delete" para controlar los errores 
+         * que puedan producirse cuando se actualice la base de datos. Si se produice un error, el método 
+         * HttpPost Delete, pasando un parámetro que indica que se ha produciddo un error.
+         * Despues, el método HttpGet Delete vuelve a mostrar la página de confirmación junto con el 
+         * mensaje de error, dando al usuario la oportunidad de cancelar o volver a intentarlo.
+         */
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        //? Código original...
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var student = await _context.Students.FindAsync(id);
+        //    _context.Students.Remove(student);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var student = await _context.Students.FindAsync(id);
-            _context.Students.Remove(student);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (student == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            try
+            {
+                _context.Students.Remove(student);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException /* ex*/)
+            {
+                // Log the error (uncomment ex variable name and write s log.)
+                return RedirectToAction(nameof(Delete), new
+                {
+                    id = id,
+                    saveChangesError = true
+                });
+            }
         }
 
         private bool StudentExists(int id)

@@ -28,6 +28,33 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.EnrollmentDate)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Enrollments)
+        </dt>
+        <!-- El siguiente código se crea para cambiar la vista detalles.
+            Creamos una tabla y llamamos, mediante un bucle, a las entidades 
+            de la propiedad de navegación "Enrollments". para cada inscripción, se muestra el título del 
+            curso y la claificación. Eñ título del curso se recupera de la entidad Course almacenada en la 
+            propiedad de navegación "Course" de la entidad "Enrollments"-->
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>Course Title</th>
+                    <th>Grade</th>
+                </tr>
+                @foreach (var item in Model.Enrollments)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Course.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Grade)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
     </dl>
 </div>
 <div>
