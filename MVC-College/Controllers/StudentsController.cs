@@ -26,10 +26,64 @@ namespace MVC_College.Controllers
          * El método obtiene una lista de estudiantes de la entidad Students, que se establece leyendo la propiedad 
          * "Students" de la instancia del contexto de base de datos.
          */
+        /**
+         * FUNCIONALIDAD ORDENACIÓN
+         * Añadimos el parámetro "string sortOrder"
+         * FUNCIONALIDAD CUADRO DE BUSQUEDA
+         * Añadimos el parámetro "string searchString"
+         * FUNCIONALIDAD AGREAGR PAGINACIÓN
+         * Añadimos los parámetros "string currentFilter" y "int? pagenumber"
+         */
         // GET: Students
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-            return View(await _context.Students.ToListAsync());
+            // Funcionalidad agregar paginación
+            ViewData ["CurrentSort"] = sortOrder;
+            // Funcionalidad ordenación desde las propias columnas
+            ViewData ["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData ["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            // Funcionalidad agregar paginación
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            // Funcionalidad cuadro de busqueda
+            ViewData ["CurrentFilter"] = searchString;
+            var students = from s in _context.Students
+                           select s;
+            // Funcionalidad cuador de busqueda
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(s => s.LastName.Contains(searchString) || s.FisrtMidName.Contains(searchString));
+            }
+            //Funcionalidad títulos columnas ordenación
+            switch (sortOrder)
+            {
+
+                case "name_desc":
+                    students = students.OrderByDescending(s => s.LastName);
+                    break;
+                case "Date":
+                    students = students.OrderBy(s => s.EnrollmentDate);
+                    break;
+                case "date_desc":
+                    students = students.OrderByDescending(s => s.EnrollmentDate);
+                    break;
+                default:
+                    students = students.OrderBy(s => s.LastName);
+                    break;
+            }
+            //? Código original
+            //return View(await _context.Students.ToListAsync());
+            //? Código utilizado para "busqueda" y "Ordenación"
+            //return View(await students.AsNoTracking().ToListAsync());
+            // Cubre todas las funcionalidades creadas
+            int pageSize = 5;
+            return View(await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Students/Details/5
