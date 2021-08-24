@@ -4,14 +4,16 @@ using MVC_College.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MVC_College.Migrations
 {
     [DbContext(typeof(MVC_CollegeContexto))]
-    partial class MVC_CollegeContextoModelSnapshot : ModelSnapshot
+    [Migration("20210824165250_DatosCompletos")]
+    partial class DatosCompletos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
