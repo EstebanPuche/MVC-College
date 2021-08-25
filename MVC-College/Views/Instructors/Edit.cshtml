@@ -9,7 +9,7 @@
 <h4>Instructor</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -27,6 +27,45 @@
                 <label asp-for="HireDate" class="control-label"></label>
                 <input asp-for="HireDate" class="form-control" />
                 <span asp-validation-for="HireDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OfficeAssignment.Location" class="control-label"></label>
+                <input asp-for="OfficeAssignment.Location" class="form-control" />
+                <span asp-validation-for="OfficeAssignment.Location" class="text-danger"></span>
+            </div>
+            <!--
+            El siguiente código crea una tabla HTML que tiene 3 columnas. En cada columna hay una casilla
+                seguida de una leyenda que está formada poir el número y el título del curso. Todas las 
+                casillas tienen el mismo nombre "selectedCourses" que informa al enlazador de modelos 
+                que se deben tratar como un grupo.
+            -->
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+                                List<MVC_College.Models.SchoolViewModels.AssignedCourseData> courses = ViewBag.Courses;
+
+                                foreach (var course in courses)
+                                {
+                                    if (cnt++ % 2 == 0)
+                                    {
+                                        @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedCourses"
+                                               value="@course.CourseId"
+                                               @(Html.Raw(course.Assigned ? "checked=\"checked\"" : "")) />
+                                               @course.CourseId @: @course.Title
+                                    @:</td>
+                                }
+                                @:</tr>
+                             }
+                        
+                    </table>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

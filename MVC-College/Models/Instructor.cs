@@ -57,8 +57,9 @@ namespace MVC_College.Models
             get; set;
         }
         /**
-         * Las reglas de negocion "MVC_college" estblecen que un instructor solo puede tener una oficina
-         * a lo sumo, por lo que la propiedad "OfficeAssignment" contiene una única entidad "OfficeAssignment"
+         * Las reglas de negocion "MVC_college" establecen que un instructor solo puede tener una oficina
+         * a lo sumo o ninguna, por lo que la propiedad "OfficeAssignment" contiene una única entidad
+         * "OfficeAssignment"
          */
         public OfficeAssignment OfficeAssignment
         {

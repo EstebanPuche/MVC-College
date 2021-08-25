@@ -184,3 +184,8 @@ C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcore
 C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Instructors\Details.cshtml.g.cs
 C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Instructors\Edit.cshtml.g.cs
 C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Instructors\Index.cshtml.g.cs
+C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Departments\Create.cshtml.g.cs
+C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Departments\Delete.cshtml.g.cs
+C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Departments\Details.cshtml.g.cs
+C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Departments\Edit.cshtml.g.cs
+C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Departments\Index.cshtml.g.cs
