@@ -33,7 +33,9 @@ namespace MVC_College.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
-
+            /**
+             * Código comentado para la realizaciónde la actualizaciónde la base datos.
+             */
             //migrationBuilder.AddColumn<int>(
             //    name: "DepartmentId",
             //    table: "Course",
@@ -100,6 +102,10 @@ namespace MVC_College.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+            /**
+             * El código de acontinuación se ha añadido para poder hacar la actualizaciónde la base de
+             * datos correctamente. Ya que existina datos en la tabla.
+             */
             migrationBuilder.Sql("INSERT INTO dbo.Department (Name, Budget, StartDate) VALUES ('Temp', 0.00, GETDATE())");
             // Default value for FK points to department created above, with
             // defaultValue changed to 1 in following AddColumn statement.

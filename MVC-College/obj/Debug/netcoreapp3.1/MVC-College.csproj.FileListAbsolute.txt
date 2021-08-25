@@ -179,3 +179,8 @@ C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcore
 C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Enrollments\Index.cshtml.g.cs
 C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\bin\Debug\netcoreapp3.1\System.ComponentModel.Annotations.dll
 C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Home\About.cshtml.g.cs
+C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Instructors\Create.cshtml.g.cs
+C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Instructors\Delete.cshtml.g.cs
+C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Instructors\Details.cshtml.g.cs
+C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Instructors\Edit.cshtml.g.cs
+C:\Users\Esteban\Desktop\Tutoriales_C#\MVC-College\MVC-College\obj\Debug\netcoreapp3.1\Razor\Views\Instructors\Index.cshtml.g.cs
